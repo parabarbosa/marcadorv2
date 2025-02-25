@@ -1,62 +1,77 @@
-<!-- ficheiro html.txt -->
 <!DOCTYPE html>
 <html lang="pt">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assistente de Tênis de Mesa</title>
+    <title>Marcador de Tênis de Mesa</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-    <div id="app">
-        <h1>Assistente de Tênis de Mesa</h1>
-        <div id="player-setup">
-            <h2>Escolha os Jogadores</h2>
-            <select id="player1-select"></select>
-            <button onclick="addNewPlayer()">Adicionar Novo Jogador</button>
-            <input type="file" id="player-photo-input" accept="image/*" style="display:none;">
-            <button onclick="editPlayer()">Editar Jogador</button>
-            <select id="player2-select"></select>
-            <button onclick="startGame()">Iniciar Jogo</button>
+    <div class="container">
+        <h1>Marcador de Tênis de Mesa</h1>
+        
+        <!-- Menu Inicial -->
+        <div id="startMenu">
+            <button onclick="showPlayerForm()">Novo Jogador</button>
+            <button onclick="startGame('single')">Novo Jogo (Individual)</button>
+            <button onclick="startGame('doubles')">Novo Jogo (Pares)</button>
+            <button onclick="showPlayers()">Ver Jogadores</button>
+            <button onclick="exportData()">Exportar Dados</button>
         </div>
-        <div id="serve-selector" style="display:none;">
-            <h2>Quem começa a servir?</h2>
-            <div id="serve-options">
-                <div class="serve-option" onclick="setFirstServer('player1')">
-                    <img id="serve-player1-img" src="" alt="Jogador 1">
-                    <span id="serve-player1-name"></span>
-                </div>
-                <div class="serve-option" onclick="setFirstServer('player2')">
-                    <img id="serve-player2-img" src="" alt="Jogador 2">
-                    <span id="serve-player2-name"></span>
-                </div>
-            </div>
+
+        <!-- Formulário de Novo Jogador -->
+        <div id="playerForm" style="display: none;">
+            <h2>Novo Jogador</h2>
+            <input type="text" id="playerName" placeholder="Nome do Jogador">
+            <input type="text" id="playerPhoto" placeholder="URL da Foto">
+            <button onclick="addPlayer()">Salvar</button>
+            <button onclick="hidePlayerForm()">Cancelar</button>
         </div>
-        <div id="game-interface" style="display:none;">
+
+        <!-- Interface do Jogo -->
+        <div id="gameScreen" style="display: none;">
             <h2>Jogo em Andamento</h2>
-            <div id="scoreboard">
-                <div id="player1" onclick="recordPoint('player1')">
-                    <img src="" alt="Jogador 1" id="player1-img">
-                    <span id="player1-name"></span>
-                    <div class="service-indicator">SERVIÇO</div>
-                    <span id="player1-score">0</span>
-                </div>
-                <div id="player2" onclick="recordPoint('player2')">
-                    <img src="" alt="Jogador 2" id="player2-img">
-                    <span id="player2-name"></span>
-                    <div class="service-indicator">SERVIÇO</div>
-                    <span id="player2-score">0</span>
-                </div>
+            <div id="playerSelection" style="display: none;">
+                <select id="player1"></select>
+                <select id="player2"></select>
+                <select id="player3" style="display: none;"></select>
+                <select id="player4" style="display: none;"></select>
+                <label>Quem serve primeiro?</label>
+                <select id="firstServer"></select>
+                <button onclick="startScoring()">Iniciar</button>
             </div>
-            <div id="game-duration">Duração: 0m 0s</div>
-            <button id="export-csv-button" onclick="exportToCSV()" style="display:none;">Exportar Resultados para CSV</button>
-            <!-- <button onclick="syncToSheets()">Sync to Google Sheets</button> -->
+            <div id="scoring" style="display: none;">
+                <div class="player" id="player1Box">
+                    <img id="p1Photo" src="" alt="Jogador 1">
+                    <span id="p1Name"></span>
+                    <span id="p1Score">0</span>
+                </div>
+                <div class="player" id="player2Box">
+                    <img id="p2Photo" src="" alt="Jogador 2">
+                    <span id="p2Name"></span>
+                    <span id="p2Score">0</span>
+                </div>
+                <button onclick="endGame()">Finalizar Jogo</button>
+            </div>
+        </div>
+
+        <!-- Lista de Jogadores -->
+        <div id="playerList" style="display: none;">
+            <h2>Jogadores</h2>
+            <table id="playersTable">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Vitórias</th>
+                        <th>Derrotas</th>
+                        <th>Desempenho</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <button onclick="hidePlayerList()">Voltar</button>
         </div>
     </div>
     <script src="script.js"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script> -->
 </body>
-
 </html>
